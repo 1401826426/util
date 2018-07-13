@@ -136,8 +136,8 @@ public class Express {
 				}
 				OperatorNode node = new OperatorNode(op) ; 
 				list.add(node) ; 
-			}else if(StringUtils.getInstance().isNumber(word)){
-				Number number = StringUtils.getInstance().parseNumber(word) ;
+			}else if(StringUtils.isNumber(word)){
+				Number number = StringUtils.parseNumber(word) ;
 				ConstantNode node = new ConstantNode(number) ; 
 				list.add(node) ; 
 			}else{
