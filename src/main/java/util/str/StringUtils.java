@@ -1,5 +1,7 @@
 package util.str;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,7 +11,7 @@ public class StringUtils {
 
 	
 	public static boolean  isBlank(String str){
-		return str != null && (!"".equals(str.trim())) ; 
+		return str == null || ("".equals(str.trim())) ; 
 	}
 	
 	public static boolean isMail(String mail){
@@ -99,6 +101,40 @@ public class StringUtils {
 			return (char) (ch - 'A' + 'a') ; 
 		}
 		return ch;
+	}
+
+	public static boolean isUpper(char ch){
+		return ch >= 'A' && ch <= 'Z' ; 
+	}
+	
+	public static boolean isLower(char ch){
+		return ch >= 'a' && ch <= 'z' ; 
+	}
+	
+	public static String[] splitByUpper(String value) {
+		if(isBlank(value)){
+			return new String[]{} ; 
+		}
+		List<String> list = new ArrayList<String>() ; 
+		char[] chs = value.toCharArray() ;
+		StringBuilder sb = new StringBuilder("") ; 
+		for(char ch:chs){
+			if(isUpper(ch)){
+				String s = sb.toString() ; 
+				if(!isBlank(s)){
+					list.add(s) ; 
+				}
+				sb = new StringBuilder("");  
+			}
+			sb.append(ch) ; 
+		}
+		String s = sb.toString() ; 
+		if(!isBlank(s)){
+			list.add(s);
+ 		}
+		String[] strs = new String[list.size()]; 
+		list.toArray(strs) ; 
+		return strs ; 
 	}
 }
 

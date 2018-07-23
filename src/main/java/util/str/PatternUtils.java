@@ -31,7 +31,7 @@ public abstract class PatternUtils {
 	public static Pattern getTelephonePattern(){
 		Pattern pattern = patterns.get("telephonePattern") ; 
 		if(pattern == null){
-			pattern = Pattern.compile(STR_MAIL_PATTERN) ;
+			pattern = Pattern.compile(STR_TELEPHONE_PATTERN) ;
 			patterns.put("telephonePattern", pattern) ; 
 		}
 		return pattern ; 

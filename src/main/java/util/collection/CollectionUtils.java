@@ -22,6 +22,13 @@ public abstract class CollectionUtils {
 		return map == null || map.isEmpty() ; 
 	}
 	
+	public <T> T getFirstObject(List<T> list){
+		if(list == null || list.size() == 0){
+			return null ; 
+		}
+		return list.get(0) ; 
+	}
+	
 	public static <T> List<T> arrayToList(T[] array){
 		return Arrays.asList(array);
 	}
