@@ -21,14 +21,10 @@ public class ClassUtilTests {
 				}
 			}
 		}
-//		TypeVariable<?>[] typeVars = mapReturn.getTypeParameters();
-//		for(TypeVariable<?> type:typeVars){
-//			System.err.println(type.getName());
-//			System.err.println(type.getGenericDeclaration());
-////			System.err.println(type.getGenericDeclaration().);
-//		}
-//		Method listMethod = clazz.getMethod("list") ;
-		
+		System.err.println("=================================================================");
+		Method method = D.class.getMethod("map") ; 
+		System.err.println(method.getDeclaringClass().getName());
+//		System.err.println(method.get);
 	}
 	
 	
@@ -47,6 +43,30 @@ public class ClassUtilTests {
 	}
 	
 	private static class C{
+		
+	}
+	
+	private static class D implements A{
+
+		@Override
+		public Map<B, C> map() {
+			return null;
+		}
+
+		@Override
+		public List<B> list() {
+			return null;
+		}
+
+		@Override
+		public C[] array() {
+			return null;
+		}
+
+		@Override
+		public B generic() {
+			return null;
+		}
 		
 	}
 }
