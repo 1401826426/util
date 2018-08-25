@@ -1,6 +1,8 @@
-package util.clazz;
+package util.clazz.classUtil;
 
 import java.lang.reflect.Method;
+
+import util.clazz.ClazzUtil;
 
 public class ClassUtilTests2 {
 	

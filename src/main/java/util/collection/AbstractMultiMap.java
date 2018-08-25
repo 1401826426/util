@@ -82,11 +82,11 @@ public abstract class AbstractMultiMap<K,V> implements MultiMap<K,V>{
 	public void putOne(K k, V v) {
 		Collection<V> collection = getMap().get(k) ; 
 		if(collection == null){
-			collection = getCollection() ;  
+			collection = createCollection() ;  
 		}
 		collection.add(v) ; 
 	}
 
-	protected abstract  Collection<V> getCollection()  ; 
+	protected abstract  Collection<V> createCollection()  ; 
 
 }

@@ -1,5 +1,6 @@
 package util.clazz;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +11,29 @@ import java.util.Set;
 //4.WildcardType：代表一种通配符类型表达式，类似? super T这样的通配符表达式。
 
 public class ClazzUtil {
+	
+	private static Set<Class<?>> SIMPLE_CLASS_SET ; 
+	
+	static{
+		SIMPLE_CLASS_SET = new HashSet<>() ; 
+		SIMPLE_CLASS_SET.add(boolean.class) ;
+		SIMPLE_CLASS_SET.add(byte.class) ;
+		SIMPLE_CLASS_SET.add(short.class) ;
+		SIMPLE_CLASS_SET.add(char.class) ;
+		SIMPLE_CLASS_SET.add(int.class) ;
+		SIMPLE_CLASS_SET.add(long.class) ;
+		SIMPLE_CLASS_SET.add(float.class) ;
+		SIMPLE_CLASS_SET.add(double.class) ;
+		
+		SIMPLE_CLASS_SET.add(Boolean.class) ;
+		SIMPLE_CLASS_SET.add(Byte.class) ;
+		SIMPLE_CLASS_SET.add(Short.class) ;
+		SIMPLE_CLASS_SET.add(Character.class) ;
+		SIMPLE_CLASS_SET.add(Integer.class) ;
+		SIMPLE_CLASS_SET.add(Long.class) ;
+		SIMPLE_CLASS_SET.add(Float.class) ;
+		SIMPLE_CLASS_SET.add(Double.class) ;
+	}
 	
 	public static void doWithMethods(Class<?> clazz , MethodCallBack cb){
 		doWithMethods(clazz, cb,null);
@@ -56,7 +80,11 @@ public class ClazzUtil {
 //		return null ; 
 //	}
 //
-	
+	/**
+	 * 找对应方法的申明的类或接口
+	 * @param method
+	 * @return
+	 */
 	public static Class<?> getDecalareInterface(Method method){
 		Class<?> clazz = method.getDeclaringClass() ; 
 		Set<Class<?>> vis = new HashSet<Class<?>>() ;
@@ -100,9 +128,51 @@ public class ClazzUtil {
 		}
 		return null;
 	}
+	
+	public static <T extends Annotation> T getAnnotation(Class<?> cc,Class<T> anno){
+		while(cc != null && cc != Object.class){
+			T t = cc.getAnnotation(anno) ;
+			if(t != null){
+				return t ; 
+			}
+			cc = cc.getSuperclass() ; 
+		}
+		return null ; 
+	}
 
+	
+	public static boolean isSimpleClass(Class<?> clazz){
+		return SIMPLE_CLASS_SET.contains(clazz) ; 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T strToSimpleObject(Class<T> clazz,String value){
+		if(clazz == Boolean.class || clazz == boolean.class){
+			return (T)Boolean.valueOf(value) ; 
+		}else if(clazz == Byte.class || clazz == byte.class){
+			return (T)Byte.valueOf(value) ; 
+		}else if(clazz == Short.class || clazz == short.class){
+			return (T)Short.valueOf(value) ; 
+		}else if(clazz == Character.class || clazz == char.class){
+			if(value.length() > 0){				
+				return (T)((Character)value.charAt(0)) ;  
+			}
+		}else if(clazz == Integer.class || clazz == int.class){
+			return (T)Integer.valueOf(value) ;  
+		}else if(clazz == Long.class || clazz == long.class){
+			return (T)Long.valueOf(value) ; 
+		}else if(clazz == Float.class || clazz == float.class){
+			return (T)Float.valueOf(value) ; 
+		}else if(clazz == Double.class || clazz == double.class){
+			return (T)Double.valueOf(value) ; 
+		}else if(clazz == String.class){
+			return (T)value ; 
+		}
+		return null ;
+	}
+	
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException {
-		
+//		System.err.println(isSimpleClass(clazz));
 	}
 	
 

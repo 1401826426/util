@@ -10,7 +10,7 @@ public class TreeMapLinkedListMultiMap<K,V> extends AbstractMultiMap<K, V>{
 	private  Map<K,Collection<V>> map = new TreeMap<>() ;
 
 	@Override
-	protected Collection<V> getCollection() {
+	protected Collection<V> createCollection() {
 		return new LinkedList<V>();
 	}
 

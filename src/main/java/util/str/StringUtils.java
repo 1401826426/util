@@ -59,7 +59,7 @@ public class StringUtils {
 	}
 	
 	/**
-	 * °ÑhttpÇëÇóµÄhost½ØÈ¡µô
+	 * ï¿½ï¿½httpï¿½ï¿½ï¿½ï¿½ï¿½hostï¿½ï¿½È¡ï¿½ï¿½
 	 * @param url
 	 * @return
 	 */
@@ -110,6 +110,23 @@ public class StringUtils {
 	public static boolean isLower(char ch){
 		return ch >= 'a' && ch <= 'z' ; 
 	}
+	
+	public static <T> String listToStr(List<T> list){
+		StringBuilder sb = new StringBuilder("") ;
+		boolean flag = false ; 
+		if(list != null){
+			for(T t:list){
+				if(flag){
+					sb.append(",") ; 
+				}
+				sb.append(t) ; 
+				flag = true ; 
+			}
+		}
+		return sb.toString() ; 
+	}
+	
+	
 	
 	public static String[] splitByUpper(String value) {
 		if(isBlank(value)){
