@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean name="A">
+	<property name="a">1</property>
+	<bean name="b">
+		<property name="c">2</property>
+		<property name="d">3</property>
+	</bean>
+	<array name="c">
+		<property>1</property>
+		<property>2</property>l
+		<property>3</property>
+	</array>
+	<array name="d">
+		<array>
+			<array>
+				<property>1</property>
+				<property>2</property>
+			</array>
+			<array>
+				<property>1</property>
+				<property>2</property>
+			</array>
+		</array>
+		<array>
+			<array>
+				<property>1</property>
+				<property>2</property>
+			</array>
+			<array>
+				<property>1</property>
+				<property>2</property>
+			</array>
+		</array>
+	</array>
+	<array name="e">
+		<array>
+			<property>1</property>
+			<property>2</property>
+		</array>
+	</array>
+	<array name="f">
+		<array>
+			<property>1</property>
+			<property>2</property>
+		</array>
+	</array>
+</bean>
+
+
+
+
+
+

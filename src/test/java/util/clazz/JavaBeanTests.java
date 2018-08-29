@@ -3,6 +3,8 @@ package util.clazz;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.TypeVariable;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +13,21 @@ public class JavaBeanTests {
 	public static void main(String[] args) throws IntrospectionException {
 		BeanInfo beanInfo = Introspector.getBeanInfo(A.class) ;
 		System.err.println(beanInfo);
+		
+		System.err.println("======================================================");
+		BeanInfo beanInfoB = Introspector.getBeanInfo(B.class) ; 
+		for(PropertyDescriptor pd:beanInfoB.getPropertyDescriptors()){
+			Class<?> clazz = pd.getPropertyType() ;
+			Class<?> pec = pd.getPropertyEditorClass() ;
+			System.err.println("======="+pec) ; 
+			System.err.println("========"+clazz) ;
+			TypeVariable<?>[] tvs = clazz.getTypeParameters() ;
+			if(tvs != null){
+				for(TypeVariable<?> tv:tvs){
+					System.err.println(tv.getTypeName());
+				}
+			}
+		}
 	}
 	
 }

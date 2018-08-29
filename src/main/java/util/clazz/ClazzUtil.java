@@ -1,9 +1,16 @@
 package util.clazz;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.sun.javafx.collections.MappingChange.Map;
 
 //1.ParameterizedType： 表示一种参数化的类型，比如Collection，即普通的泛型。 
 //2.TypeVariable：是各种类型变量的公共父接口，就是泛型里面的类似T、E。 
@@ -147,6 +154,9 @@ public class ClazzUtil {
 	
 	@SuppressWarnings("unchecked")
 	public static <T> T strToSimpleObject(Class<T> clazz,String value){
+		if(value == null){
+			return null ; 
+		}
 		if(clazz == Boolean.class || clazz == boolean.class){
 			return (T)Boolean.valueOf(value) ; 
 		}else if(clazz == Byte.class || clazz == byte.class){
@@ -171,9 +181,39 @@ public class ClazzUtil {
 		return null ;
 	}
 	
-	public static void main(String[] args) throws NoSuchMethodException, SecurityException {
-//		System.err.println(isSimpleClass(clazz));
+	public static boolean isCollectClass(Class<?> clazz) {
+		if(clazz != null && clazz.isAssignableFrom(Collection.class)){
+			return true ; 
+		}
+		return false;
 	}
+	
+	
+	public static boolean isBoolean(Class<?> clazz){
+		return clazz == Boolean.class || clazz == boolean.class ; 
+	}
+	
+
+	public static boolean isArray(Class<?> pdClass) {
+		return pdClass == Array.class;
+	}
+
+	public static boolean isMapClass(Class<?> rawClass) {
+		return rawClass == Map.class;
+	}
+
+	public static Class<?> getClazzFromType(Type type) {
+		if(type instanceof Class<?>){
+			return (Class<?>)type ; 
+		}else if(type instanceof ParameterizedType){
+			ParameterizedType parameterizedType = (ParameterizedType)type ; 
+			return (Class<?>)parameterizedType.getRawType() ;  
+		}else if(type instanceof GenericArrayType){
+			return Array.class ; 
+		}
+		return null;
+	}
+
 	
 
 	
