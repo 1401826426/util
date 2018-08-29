@@ -42,7 +42,7 @@ public class XmlNodeParser extends AbstractDataNodeParser{
 			}
 			DataNode node  = new ValueNode(name,value) ;
 			return node ; 
-		}else if("array".equals(nodeName)){
+		}else if("array".equals(nodeName) || "list".equals(nodeName)){
 			NodeList nl = ele.getChildNodes() ;
 			List<DataNode> list = new ArrayList<DataNode>() ; 
 			for(int i = 0;i < nl.getLength();i++){

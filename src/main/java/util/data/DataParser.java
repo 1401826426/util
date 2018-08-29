@@ -13,7 +13,6 @@ public class DataParser {
 	@SuppressWarnings("unchecked")
 	public <T> T parse(Class<T> clazz,InputStream is){
 		DataNode node = nodeParser.parse(is) ; 
-		System.err.println(node);
 		return (T)node.resolve(clazz) ; 
 	}
 	

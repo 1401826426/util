@@ -2,6 +2,7 @@ package util.data;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,19 @@ public class ObjectNode extends AbstractNode{
 		this.nodes = nodes ; 
 	}
 
+	public ObjectNode(String name) {
+		super(name) ;
+		this.nodes = new HashMap<String,DataNode>() ; 
+	}
+
+	public void addDataNode(String name,DataNode dataNode){
+		this.nodes.put(name, dataNode)  ; 
+	}
+
+	public void setNodes(Map<String, DataNode> nodes) {
+		this.nodes = nodes;
+	}
+
 	@Override
 	public Object resolve(Type type) {
 		if(type instanceof Class<?>){
@@ -27,10 +41,12 @@ public class ObjectNode extends AbstractNode{
 				BeanDescription bp = BeanDescriptionParser.getInstance().parse(clazz) ; 
 				List<PropertyDescription> pds = bp.getPds() ; 
 				for(PropertyDescription pd:pds){
-					DataNode node = nodes.get(pd.getName()) ; 
-					Object val = node.resolve(pd.getGenericType()) ;
-					if(val != null){						
-						pd.getWriteMethod().invoke(obj, val) ; 
+					DataNode node = nodes.get(pd.getName()) ;
+					if(node != null){
+						Object val = node.resolve(pd.getGenericType()) ;
+						if(val != null){						
+							pd.getWriteMethod().invoke(obj, val) ; 
+						}
 					}
 				}
 				return obj;
@@ -44,11 +60,11 @@ public class ObjectNode extends AbstractNode{
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("{\n") ;
+		StringBuilder sb = new StringBuilder("{") ;
 		for(Map.Entry<String,DataNode> entry:nodes.entrySet()){
-			sb.append(entry.getKey()+":"+entry.getValue()+",\n") ; 
+			sb.append(entry.getKey()+":"+entry.getValue()+",") ; 
 		}
-		sb.append("}\n") ; 
+		sb.append("}") ; 
 		return sb.toString();
 	}
 	

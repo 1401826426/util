@@ -15,10 +15,6 @@ public class BeanDescriptionTest {
 		BeanDescription beanDescription = BeanDescriptionParser.getInstance().parse(A.class) ;
 		for(PropertyDescription pd:beanDescription.getPds()){
 			Field field = pd.getProperty(); 
-			if(field.getName().equals("b")){
-				int t = 0 ; 
-				t++ ; 
-			}
 			Type type = field.getGenericType();
 			System.err.println("=============================================================================================");
 			System.err.println(type);

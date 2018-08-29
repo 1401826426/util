@@ -68,9 +68,9 @@ public class ListNode extends AbstractNode{
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[") ; 
 		for(DataNode node:nodes){
-			sb.append(node+",\n") ; 
+			sb.append(node+",") ; 
 		}
-		sb.append("]\n") ;  
+		sb.append("]") ;  
 		return sb.toString() ; 
 	}
 	
