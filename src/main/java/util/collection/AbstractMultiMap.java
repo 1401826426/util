@@ -83,6 +83,7 @@ public abstract class AbstractMultiMap<K,V> implements MultiMap<K,V>{
 		Collection<V> collection = getMap().get(k) ; 
 		if(collection == null){
 			collection = createCollection() ;  
+			getMap().put(k,collection) ; 
 		}
 		collection.add(v) ; 
 	}
