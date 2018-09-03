@@ -8,8 +8,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+
+import com.sun.javafx.collections.MappingChange.Map;
 
 //1.ParameterizedType： 表示一种参数化的类型，比如Collection，即普通的泛型。 
 //2.TypeVariable：是各种类型变量的公共父接口，就是泛型里面的类似T、E。 
