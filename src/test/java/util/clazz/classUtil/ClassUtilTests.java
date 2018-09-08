@@ -24,7 +24,9 @@ public class ClassUtilTests {
 		System.err.println("=================================================================");
 		Method method = D.class.getMethod("map") ; 
 		System.err.println(method.getDeclaringClass().getName());
-//		System.err.println(method.get);
+		System.err.println("=================================================================");
+		D d = new D() ; 
+		System.err.println(d.getClass());
 	}
 	
 	
