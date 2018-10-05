@@ -1,7 +1,5 @@
 package util.clazz.classUtil;
 
-import java.util.Scanner;
-
 public class ClassTest5 {
 	
 	
@@ -10,6 +8,7 @@ public class ClassTest5 {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private static interface A{
 		
 		void a() ; 
