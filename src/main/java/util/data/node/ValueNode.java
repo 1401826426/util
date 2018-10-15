@@ -1,4 +1,4 @@
-package util.data;
+package util.data.node;
 
 import java.lang.reflect.Type;
 
@@ -28,6 +28,20 @@ public class ValueNode extends AbstractNode{
 		return sb.toString() ; 
 	}
 	
-	
+	public String toString(int blank){
+		StringBuilder sb = new StringBuilder("") ;
+		sb.append(getBlank(blank)) ; 
+		if(name != null && !"".equals(name.trim())){
+			sb.append(name+":") ; 
+		}
+		sb.append(value) ; 
+		return sb.toString() ; 
+	}
+
+	@Override
+	public void addNode(DataNode dataNode) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

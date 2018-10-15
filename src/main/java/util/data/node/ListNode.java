@@ -1,4 +1,4 @@
-package util.data;
+package util.data.node;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
@@ -72,6 +72,28 @@ public class ListNode extends AbstractNode{
 		}
 		sb.append("]") ;  
 		return sb.toString() ; 
+	}
+
+
+	@Override
+	public String toString(int blank) {
+		StringBuilder sb = new StringBuilder(getBlank(blank)) ;
+		if(name != null && !"".equals(name.trim())){
+			sb.append(name+":") ; 
+		}
+		sb.append("[\n") ; 
+		for(DataNode node:nodes){
+			sb.append(node.toString(blank+1)+",\n") ; 
+		}
+		sb.append(getBlank(blank)+"]") ; 
+		return sb.toString();
+	}
+
+
+	@Override
+	public void addNode(DataNode dataNode) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

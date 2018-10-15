@@ -59,7 +59,7 @@ public abstract class CollectionUtils {
 		}
 	}
 	/**
-	 * ¼¯ºÏsourceÖÐÊÇ·ñ°üº¬¼¯ºÏtargetµÄËùÓÐÔªËØ
+	 * ï¿½ï¿½ï¿½ï¿½sourceï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½targetï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
 	 * @param source
 	 * @param target
 	 * @return
@@ -164,6 +164,14 @@ public abstract class CollectionUtils {
 //				}
 //			}
 		}
+
+	public static String bytesToHexStr(byte[] bytes) {
+		StringBuilder sb = new StringBuilder("") ; 
+		for(byte b:bytes){
+			sb.append(String.format("%x", b)) ; 
+		}
+		return sb.toString() ; 
+	}
 		
 //		map.getClass()
 //		System.err.println(clazz instanceof ParameterizedType);

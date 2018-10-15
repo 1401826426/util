@@ -1,4 +1,4 @@
-package util.data;
+package util.data.node;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
@@ -66,6 +66,25 @@ public class ObjectNode extends AbstractNode{
 		}
 		sb.append("}") ; 
 		return sb.toString();
+	}
+
+	@Override
+	public String toString(int blank) {
+		StringBuilder sb = new StringBuilder(getBlank(blank)) ;
+		if(name != null && !"".equals(name)){
+			sb.append(name+":") ; 
+		}
+		sb.append("{\n") ; 
+		for(DataNode node:nodes.values()){
+			sb.append(node.toString(blank+1)+",\n") ; 
+		}
+		sb.append(getBlank(blank)+"}") ; 
+		return sb.toString();
+	}
+
+	@Override
+	public void addNode(DataNode dataNode) {
+		this.nodes.put(dataNode.getName(), dataNode) ; 
 	}
 	
 	
