@@ -2,7 +2,7 @@ package util.data.node;
 
 import java.lang.reflect.Type;
 
-public interface DataNode {
+public interface IDataNode {
 	
 	public String getName() ; 
 	
@@ -10,6 +10,6 @@ public interface DataNode {
 
 	public String toString(int blank) ; 
 	
-	public void addNode(DataNode dataNode); 
+	public void addNode(IDataNode dataNode); 
 	
 }

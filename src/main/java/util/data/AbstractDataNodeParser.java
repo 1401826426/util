@@ -7,12 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import util.data.node.DataNode;
+import util.data.node.IDataNode;
 
 public abstract class AbstractDataNodeParser implements NodeParser{
 
 	@Override
-	public DataNode parse(File file) {
+	public IDataNode parse(File file) {
 		if(file == null){
 			return null ; 
 		}
@@ -41,7 +41,7 @@ public abstract class AbstractDataNodeParser implements NodeParser{
 	}
 
 	@Override
-	public DataNode parse(String s) {
+	public IDataNode parse(String s) {
 		return parse(new ByteArrayInputStream(s.getBytes())) ; 
 	}
 }

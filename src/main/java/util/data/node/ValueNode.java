@@ -13,6 +13,14 @@ public class ValueNode extends AbstractNode{
 		this.value = value ; 
 	}
 
+	public ValueNode(String name) {
+		super(name) ; 
+	}
+	
+	public void setValue(String value){
+		this.value = value ; 
+	}
+	
 	public Object resolve(Type type){
 		if(type instanceof Class<?>){
 			Class<?> clazz = (Class<?>)type ; 
@@ -32,16 +40,15 @@ public class ValueNode extends AbstractNode{
 		StringBuilder sb = new StringBuilder("") ;
 		sb.append(getBlank(blank)) ; 
 		if(name != null && !"".equals(name.trim())){
-			sb.append(name+":") ; 
+			sb.append("\""+name+"\""+":") ; 
 		}
 		sb.append(value) ; 
 		return sb.toString() ; 
 	}
 
 	@Override
-	public void addNode(DataNode dataNode) {
-		// TODO Auto-generated method stub
-		
+	public void addNode(IDataNode dataNode) {
+		throw new UnsupportedOperationException() ; 
 	}
 	
 }

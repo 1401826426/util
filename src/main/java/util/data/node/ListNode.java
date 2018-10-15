@@ -13,11 +13,16 @@ import util.clazz.ClazzUtil;
 
 public class ListNode extends AbstractNode{
 	
-	private List<DataNode> nodes  ; 
+	private List<IDataNode> nodes  ; 
 	
-	public ListNode(String name,List<DataNode> nodes) {
+	public ListNode(String name,List<IDataNode> nodes) {
 		super(name);
 		this.nodes = nodes ; 
+	}
+	
+	public ListNode(String name) {
+		super(name);
+		this.nodes = new ArrayList<>() ; 
 	}
 
 	
@@ -33,7 +38,7 @@ public class ListNode extends AbstractNode{
 				e.printStackTrace();
 			} 
 			Type t = parameterizedType.getActualTypeArguments()[0] ; 
-			for(DataNode node:nodes){
+			for(IDataNode node:nodes){
 				Object obj = node.resolve(t) ;
 				collect.add(obj) ; 
 			}
@@ -44,7 +49,7 @@ public class ListNode extends AbstractNode{
 			Class<?> compClazz = ClazzUtil.getClazzFromType(compType) ; 
 			Object[] arrays = (Object[])Array.newInstance(compClazz, nodes.size()) ;
 			int pos = 0 ; 
-			for(DataNode node:nodes){
+			for(IDataNode node:nodes){
 				arrays[pos++] = node.resolve(compType) ; 
 			}
 			return arrays ; 
@@ -67,7 +72,7 @@ public class ListNode extends AbstractNode{
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[") ; 
-		for(DataNode node:nodes){
+		for(IDataNode node:nodes){
 			sb.append(node+",") ; 
 		}
 		sb.append("]") ;  
@@ -79,11 +84,16 @@ public class ListNode extends AbstractNode{
 	public String toString(int blank) {
 		StringBuilder sb = new StringBuilder(getBlank(blank)) ;
 		if(name != null && !"".equals(name.trim())){
-			sb.append(name+":") ; 
+			sb.append("\""+name+"\""+":") ; 
 		}
 		sb.append("[\n") ; 
-		for(DataNode node:nodes){
-			sb.append(node.toString(blank+1)+",\n") ; 
+		for(int i = 0;i < nodes.size();i++){
+			IDataNode node = nodes.get(i) ; 
+ 			sb.append(node.toString(blank+1)) ;
+ 			if(i != nodes.size()-1){
+ 				sb.append(",") ; 
+ 			}
+ 			sb.append("\n") ; 
 		}
 		sb.append(getBlank(blank)+"]") ; 
 		return sb.toString();
@@ -91,9 +101,8 @@ public class ListNode extends AbstractNode{
 
 
 	@Override
-	public void addNode(DataNode dataNode) {
-		// TODO Auto-generated method stub
-		
+	public void addNode(IDataNode dataNode) {
+		this.nodes.add(dataNode) ; 
 	}
 	
 	

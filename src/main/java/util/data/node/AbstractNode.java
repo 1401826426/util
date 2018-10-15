@@ -1,6 +1,6 @@
 package util.data.node;
 
-public abstract class AbstractNode implements DataNode{
+public abstract class AbstractNode implements IDataNode{
 	
 	protected String name ; 
 	

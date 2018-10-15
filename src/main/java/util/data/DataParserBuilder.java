@@ -14,5 +14,10 @@ public class DataParserBuilder {
 		return dataParser; 
 	}
 	
+	public DataParser getJsonParser(){
+		JsonNodeParser nodeParser = new JsonNodeParser();  
+		DataParser dataParser = new DataParser(nodeParser) ;
+		return dataParser  ; 
+	}
 	
 }

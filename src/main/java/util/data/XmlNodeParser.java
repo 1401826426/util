@@ -14,7 +14,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import util.data.node.DataNode;
+import util.data.node.IDataNode;
 import util.data.node.ListNode;
 import util.data.node.ObjectNode;
 import util.data.node.ValueNode;
@@ -23,7 +23,7 @@ import util.str.StringUtils;
 public class XmlNodeParser extends AbstractDataNodeParser{
 
 	@Override
-	public DataNode parse(InputStream is) {
+	public IDataNode parse(InputStream is) {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance() ; 
 		try {
 			DocumentBuilder db = dbf.newDocumentBuilder() ;
@@ -36,7 +36,7 @@ public class XmlNodeParser extends AbstractDataNodeParser{
 		return null;
 	}
 
-	private DataNode parse(Element ele) {
+	private IDataNode parse(Element ele) {
 		String name = ele.getAttribute("name") ; 
 		String nodeName = ele.getNodeName() ;
 		if("property".equals(nodeName)){
@@ -44,16 +44,16 @@ public class XmlNodeParser extends AbstractDataNodeParser{
 			if(StringUtils.isBlank(value)){
 				value = ele.getTextContent() ; 
 			}
-			DataNode node  = new ValueNode(name,value) ;
+			IDataNode node  = new ValueNode(name,value) ;
 			return node ; 
 		}else if("array".equals(nodeName) || "list".equals(nodeName)){
 			NodeList nl = ele.getChildNodes() ;
-			List<DataNode> list = new ArrayList<DataNode>() ; 
+			List<IDataNode> list = new ArrayList<IDataNode>() ; 
 			for(int i = 0;i < nl.getLength();i++){
 				Node node = nl.item(i) ;
 				if(node instanceof Element){
 					Element element = (Element)node ; 
-					DataNode dataNode = parse(element) ; 
+					IDataNode dataNode = parse(element) ; 
 					list.add(dataNode) ; 
 				}
 			}
@@ -61,12 +61,12 @@ public class XmlNodeParser extends AbstractDataNodeParser{
 			return listNode ; 
 		}else if("bean".equals(nodeName)){
 			NodeList nl = ele.getChildNodes() ; 
-			Map<String,DataNode> map = new HashMap<String,DataNode>() ; 
+			Map<String,IDataNode> map = new HashMap<String,IDataNode>() ; 
 			for(int i = 0;i < nl.getLength();i++){
 				Node node = nl.item(i); 
 				if(node instanceof Element){
 					Element element = (Element)node ; 
-					DataNode dataNode = parse(element) ; 
+					IDataNode dataNode = parse(element) ; 
 					map.put(dataNode.getName(),dataNode) ; 
 				}
 			}

@@ -3,14 +3,14 @@ package util.data;
 import java.io.File;
 import java.io.InputStream;
 
-import util.data.node.DataNode;
+import util.data.node.IDataNode;
 
 public interface NodeParser {
 	
-	public DataNode parse(InputStream is); 
+	public IDataNode parse(InputStream is); 
 	
-	public DataNode parse(File file) ; 
+	public IDataNode parse(File file) ; 
 	
-	public DataNode parse(String s) ; 
+	public IDataNode parse(String s) ; 
 
 }
