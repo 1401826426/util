@@ -8,6 +8,7 @@ import util.data.node.IDataNode;
 import util.data.node.ListNode;
 import util.data.node.ObjectNode;
 import util.data.node.ValueNode;
+import util.str.StringUtils;
 
 public class JsonNodeParser extends AbstractDataNodeParser{
 
@@ -125,7 +126,7 @@ public class JsonNodeParser extends AbstractDataNodeParser{
 							throw new RuntimeException("illegal ],pos="+i) ; 
 						}
 						String value = valueBuilder.toString() ; 
-						if(state != PARSE_STATE.LIST_OBJ_IDLE){
+						if(state != PARSE_STATE.LIST_OBJ_IDLE && !StringUtils.isBlank(value)){
 							ListNode listNode = (ListNode)dataNode; 
 							ValueNode valueNode = new ValueNode(null) ;
 							valueNode.setValue(value);
@@ -142,7 +143,7 @@ public class JsonNodeParser extends AbstractDataNodeParser{
 						if(dataNode == null || !(dataNode instanceof ObjectNode)){
 							throw new RuntimeException("illegal },pos="+i) ; 
 						} 
-						if(state != PARSE_STATE.LIST_OBJ_IDLE){//对于{}中的最后一个不是以,结尾,而是以}结尾的
+						if(state != PARSE_STATE.LIST_OBJ_IDLE && !StringUtils.isBlank(nameBuilder.toString())){//对于{}中的最后一个不是以,结尾,而是以}结尾的
 							ObjectNode objectNode = (ObjectNode)dataNode ;
 							String name = nameBuilder.toString();
 							ValueNode valueNode = new ValueNode(name,valueBuilder.toString()) ; 
