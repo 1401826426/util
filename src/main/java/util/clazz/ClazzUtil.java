@@ -147,7 +147,39 @@ public class ClazzUtil {
 		return null ; 
 	}
 
+	public static <T extends Annotation> Class<?> getAnnotationClass(Class<?> cc , Class<T> anno){
+		return detectAnnoClass(cc,anno,new HashSet<Class<?>>()) ; 
+	}
 	
+	private static <T extends Annotation> Class<?> detectAnnoClass(Class<?> cc, Class<T> anno, Set<Class<?>> vis) {
+		if(cc == null){
+			return null ; 
+		}
+		if(vis.contains(cc)){
+			return null ; 
+		}
+		vis.add(cc) ; 
+		if(cc == Object.class){
+			return null ; 
+		}
+		T t = cc.getAnnotation(anno) ;
+		if(t != null){
+			return cc ; 
+		}
+		Class<?> result = detectAnnoClass(cc.getSuperclass(), anno,vis) ;
+		if(result != null){
+			return result ; 
+		}
+		Class<?>[] interfaces = cc.getInterfaces() ;
+		for(Class<?> inter:interfaces){
+			result = detectAnnoClass(inter, anno,vis) ;
+			if(result != null){
+				return result ; 
+			}
+		}
+		return null;
+	}
+
 	public static boolean isSimpleClass(Class<?> clazz){
 		return SIMPLE_CLASS_SET.contains(clazz) ; 
 	}

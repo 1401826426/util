@@ -71,12 +71,12 @@ public abstract class SingeThreadExecutor {
 	}
 
 	
-	private class TimeCheckExecutor implements Runnable{
-		@Override
-		public void run() {
-			
-		}
-	}
+//	private class TimeCheckExecutor implements Runnable{
+//		@Override
+//		public void run() {
+//			
+//		}
+//	}
 	
 	private void startThread() {
 		
