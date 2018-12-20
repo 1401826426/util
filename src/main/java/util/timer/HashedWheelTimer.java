@@ -202,6 +202,7 @@ public class HashedWheelTimer implements Timer{
 			node.bucket = null ;
 		}
 		
+		@SuppressWarnings("unused")
 		public void clear(Set<Task> set){
 			while(true){
 				HashWheelBucketNode node = poll() ;
