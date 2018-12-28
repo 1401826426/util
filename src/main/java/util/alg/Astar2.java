@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Astar {
+import util.collection.Dimen2Map;
+
+public class Astar2 {
 	
 	private final static int NORMAL = 1000 ; 
 	private final static int CROSS = 1414;
@@ -16,13 +18,13 @@ public class Astar {
 	
 	private Queue<Pair> que  ; 
 	
-	private boolean[][] openList ; 
+	private Dimen2Map<Integer,Integer,Boolean> openList ; 
 	
-	private boolean[][] closeList ;
+	private Dimen2Map<Integer,Integer,Boolean> closeList ;
 	
 	private char[][] map ; 
 	
-	private Pair[][] pairs ; 
+	private Dimen2Map<Integer,Integer, Pair> pairs ; 
 	
 	private int n ; 
 	
@@ -32,16 +34,16 @@ public class Astar {
 	
 	private int ey ; 
 	
-	public Astar(char[][] map,int sx,int sy,int ex,int ey){
+	public Astar2(char[][] map,int sx,int sy,int ex,int ey){
 		this.n = map.length ; 
 		this.m = map[0].length ; 
 		this.ex = ex ; 
 		this.ey = ey ; 
 		this.map = map ; 
 		this.que = new PriorityQueue<>() ;
-		this.openList = new boolean[n][m] ; 
-		this.closeList = new boolean[n][m] ; 
-		this.pairs = new Pair[n][m] ; 
+		this.openList = new Dimen2Map<>() ; 
+		this.closeList = new Dimen2Map<>() ; 
+		this.pairs = new Dimen2Map<>()  ; 
 		search(sx,sy,ex,ey) ; 
 	}
 	
@@ -50,15 +52,19 @@ public class Astar {
 		int sh = dis(sx,sy,ex,ey) ; 
 		st.f = sh ;
 		que.add(st) ; 
-		openList[sx][sy] = true ; 
-		pairs[sx][sy] = st ; 
+//		openList[sx][sy] = true ;
+		openList.put(sx, sy, true);
+		pairs.put(sx, sy, st);
+//		pairs[sx][sy] = st ; 
 		while(!que.isEmpty()){
 			Pair now = que.poll() ; 
 			if(now.x == ex && now.y == ey){
 				break ; 
 			}
-			openList[now.x][now.y] = false; 
-			closeList[now.x][now.y] = true ; 
+			openList.put(now.x, now.y,false);
+			closeList.put(now.x, now.y, true);
+//			openList[now.x][now.y] = false; 
+//			closeList[now.x][now.y] = true ; 
 			for(int i = 0;i < 8;i++){
 				int nx = now.x + dx[i] ; 
 				int ny = now.y + dy[i] ;
@@ -67,25 +73,33 @@ public class Astar {
 				}
 				int dd = dis[i] ; 
 				int h = dis(nx,ny,ex,ey) ; 
-				Pair npair = pairs[now.x][now.y] ; 
+//				Pair npair = pairs[now.x][now.y] ; 
+				Pair npair = pairs.get(now.x,now.y) ; 
 				int newf = npair.g + dd + h ; 
-				if(!openList[nx][ny]){
+//				if(!openList[nx][ny]){
+				boolean open = openList.get(nx, ny) != null && openList.get(nx, ny) ; 
+				if(!open){
 					Pair pair = new Pair(nx,ny) ; 
 					pair.f = newf ;
 					pair.g = npair.g + dd ; 
 					pair.parentPair = npair ; 
-					pairs[nx][ny] = pair ;
+//					pairs[nx][ny] = pair ;
+					pairs.put(nx, ny, pair);
 					que.add(pair) ; 
-					openList[nx][ny] = true ; 
+//					openList[nx][ny] = true ; 
+					openList.put(nx, ny, true);
 				}else{
-				    if(newf < pairs[nx][ny].f){
+					Pair nnpair = pairs.get(nx, ny) ; 
+//				    if(newf < pairs[nx][ny].f){
+				    if(newf < nnpair.f){
 				    	Pair pair = new Pair(nx,ny) ; 
 						pair.f = newf ; 
 						pair.g = npair.g + dd ; 
 						pair.parentPair = npair ; 
-						que.remove(pairs[nx][ny]) ; 
+						que.remove(nnpair) ; 
 						que.add(pair) ; 
-						pairs[nx][ny] = pair ;
+						pairs.put(nx, ny, pair);
+//						pairs[nx][ny] = pair ;
 				    }
 				}
 			}
@@ -93,7 +107,8 @@ public class Astar {
 	}
 	
 	private List<Pair> getRoadPair(){
-		Pair ePair = this.pairs[ex][ey] ; 
+//		Pair ePair = this.pairs[ex][ey] ; 
+		Pair ePair = this.pairs.get(ex, ey); 
 		List<Pair> road = new ArrayList<>() ; 
 		while(ePair != null){
 			road.add(ePair) ; 
@@ -154,35 +169,9 @@ public class Astar {
 		System.out.println(); 
 	}
 	
-	public void printOpenList(){
-		System.out.println("==============printOpenList===============");
-		for(int i = 0;i < n;i++){
-			for(int j = 0;j < m;j++){
-				 char ch = openList[i][j] ? '1' : map[i][j] ; 
-				 System.out.print(ch) ; 
-				 if(j == m-1){
-					System.out.println();  
-				 }
-			}
-		}
-		System.out.println(); 
-	}
-	
-	public void printSearchList(){
-		System.out.println("==============printSearchList===============");
-		for(int i = 0;i < n;i++){
-			for(int j = 0;j < m;j++){
-				 char ch = (openList[i][j] || closeList[i][j]) ? '1' : map[i][j] ; 
-				 System.out.print(ch) ; 
-				 if(j == m-1){
-						System.out.println();  
-					 }
-			}
-		}
-	}
-	
 	private boolean pass(int nx, int ny) {
-		return nx >= 0 && nx < n && ny >= 0 && ny < m && map[nx][ny] == EMPRY_CHAR && !closeList[nx][ny];
+		boolean close = closeList.get(nx, ny) != null && closeList.get(nx, ny) ; 
+		return nx >= 0 && nx < n && ny >= 0 && ny < m && map[nx][ny] == EMPRY_CHAR && !close;
 	}
 
 	private int dis(int nx,int ny,int x,int y){
@@ -201,9 +190,9 @@ public class Astar {
 	
 	public void print(){
 		printXyRoad();
-		printMapRoad();
-		printOpenList();
-		printSearchList() ; 
+//		printMapRoad();
+//		printOpenList();
+//		printSearchList() ; 
 	}
 	
 	public static void main(String[] args){
@@ -213,64 +202,21 @@ public class Astar {
 		int n = map.length ; 
 		int m = map[0].length ;
 		long startTime = System.currentTimeMillis() ; 
-		new Astar(map, 0, 0, n-1, m-1).print();
+		new Astar2(map, 0, 0, n-1, m-1).print();
 		long endTime = System.currentTimeMillis() ; 
 		System.out.println(endTime - startTime );
 	}
 	
 	private static char[][] generateMap(){
-		int n = 50 ; 
-		int m = 100; 
+		int n = 100 ; 
+		int m = 200; 
 		char[][] map = new char[n][m] ; 
 		for(int i = 0;i < n;i++){
 			for(int j = 0;j < m;j++){
 				map[i][j] = EMPRY_CHAR ; 
 			}
 		}
-//		for(int j = 0;j < m-1;j++){
-//			map[n/2][j] = '#';
-//			if(j % 2 ==0){				
-//				map[1][j] = '#';
-//				map[0][j+1] = '#';
-//			}
-//		}
-//		map[0][m-1] = EMPRY_CHAR ; 
-//		for(int i = 1;i < n/2;i++){
-//			map[i][m-2] = '#';
-//		}
-//		
-//		String[] strs = new String[]{
-//				"##00###",
-//				"#0##0##",
-//				"#00##0#",
-//				"####0##",
-//				"#####00"
-//		} ; 
-//		
-//		char[][] map = new char[strs.length][] ;
-//		for(int i = 0;i < strs.length;i++){
-//			map[i] = strs[i].toCharArray() ;
-//		}
 		return map ; 
 	}
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
