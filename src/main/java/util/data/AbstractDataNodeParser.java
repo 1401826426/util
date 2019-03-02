@@ -44,6 +44,13 @@ public abstract class AbstractDataNodeParser implements NodeParser{
 	public IDataNode parse(String s) {
 		return parse(new ByteArrayInputStream(s.getBytes())) ; 
 	}
+	
+	//暂时不管性能问题
+	@Override
+	public IDataNode parse(byte[] bytes) {
+		return parse(new ByteArrayInputStream(bytes)) ; 
+	}
+	
 }
 
 

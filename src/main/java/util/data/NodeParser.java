@@ -12,5 +12,7 @@ public interface NodeParser {
 	public IDataNode parse(File file) ; 
 	
 	public IDataNode parse(String s) ; 
+	
+	public IDataNode parse(byte[] bytes) ; 
 
 }

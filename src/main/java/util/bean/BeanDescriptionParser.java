@@ -17,7 +17,7 @@ public class BeanDescriptionParser {
 	}
 	
 	/**
-	 * 这里解析的时候如果clazz上有泛型属性是不处理的
+	 * 杩欓噷瑙ｆ瀽鐨勬椂鍊欏鏋渃lazz涓婃湁娉涘瀷灞炴�ф槸涓嶅鐞嗙殑
 	 * @param clazz
 	 * @return
 	 */
@@ -35,6 +35,7 @@ public class BeanDescriptionParser {
 		beanDescription = new BeanDescription() ; 
 		beanDescription.setClazz(clazz);
 		beanDescription.setPds(list);
+		beanDescription.setNamePdsMap(pdMap);
 		return beanDescription ;  
 	}
 

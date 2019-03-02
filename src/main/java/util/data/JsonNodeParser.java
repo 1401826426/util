@@ -32,7 +32,7 @@ public class JsonNodeParser extends AbstractDataNodeParser{
 		PARSE_VALUE,
 		PARSE_QUOTE_VALUE,
 		PARSE_QUOTE_NAME,
-		LIST_OBJ_IDLE //在}或者]结束后,确保不会创建新的node
+		LIST_OBJ_IDLE //鍦▆鎴栬�匽缁撴潫鍚�,纭繚涓嶄細鍒涘缓鏂扮殑node
 	}
 	
 	@Override
@@ -143,7 +143,7 @@ public class JsonNodeParser extends AbstractDataNodeParser{
 						if(dataNode == null || !(dataNode instanceof ObjectNode)){
 							throw new RuntimeException("illegal },pos="+i) ; 
 						} 
-						if(state != PARSE_STATE.LIST_OBJ_IDLE && !StringUtils.isBlank(nameBuilder.toString())){//对于{}中的最后一个不是以,结尾,而是以}结尾的
+						if(state != PARSE_STATE.LIST_OBJ_IDLE && !StringUtils.isBlank(nameBuilder.toString())){//瀵逛簬{}涓殑鏈�鍚庝竴涓笉鏄互,缁撳熬,鑰屾槸浠缁撳熬鐨�
 							ObjectNode objectNode = (ObjectNode)dataNode ;
 							String name = nameBuilder.toString();
 							ValueNode valueNode = new ValueNode(name,valueBuilder.toString()) ; 
@@ -165,6 +165,8 @@ public class JsonNodeParser extends AbstractDataNodeParser{
 		}			
 		return root;
 	}
+
+	
 }
 
 

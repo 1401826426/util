@@ -3,8 +3,7 @@ package util.clazz;
 import java.io.InputStream;
 
 import util.data.DataParser;
-import util.data.DataParserBuilder;
-import util.clazz.bean.A ; 
+import util.data.DataParserBuilder; 
 public class DataParserTest {
 	
 	public static void main(String[] args) {

@@ -32,6 +32,9 @@ public class ValueNode extends AbstractNode{
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("") ; 
+		if(name != null && !"".equals(name.trim())){
+			sb.append("\""+name+"\""+":") ; 
+		}
 		sb.append(value) ; 
 		return sb.toString() ; 
 	}

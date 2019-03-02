@@ -1,46 +1,57 @@
 package util.data;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 class Solution {
-    public String largestNumber(int[] nums) {
-    	String[] ss = new String[nums.length] ; 
-    	for(int i = 0;i < nums.length;i++){
-    		ss[i] = String.valueOf(nums[i]) ; 
-    	}
-        Arrays.sort(ss,new Comparator<String>() {
-
-			@Override
-			public int compare(String o1, String o2) {
-				String s1 = o1 + o2 ; 
-				String s2 = o2 + o1 ; 
-				for(int i = 0;i < s1.length();i++){
-					if(s1.charAt(i) != s2.charAt(i)){
-						return s2.charAt(i) - s1.charAt(i) ; 
-					}
-				}
-				return 0 ; 
-			}
-		});
-        StringBuilder sb = new StringBuilder("") ; 
-        for(String s:ss){
-        	sb.append(s) ; 
-        }
-        String t = sb.toString() ; 
-        int pos = -1; 
-        for(int i = 0;i < t.length();i++){
-        	if(t.charAt(i) != '0'){
-        		pos = i ; 
-        		break ; 
-        	}
-        }
-        if(pos < 0){
-        	return "0" ; 
-        }
-    	return t.substring(pos) ; 
+	static int[] h = new int[]{1,2,4,8} ; 
+	static int[] m = new int[]{1,2,4,8,16,32} ; 
+    public List<String> readBinaryWatch(int num) {
+        List<String> list = new ArrayList<>() ; 
+        dfs(0,num,new LinkedList<>(),list) ; 
+        return list ; 
     }
+	private void dfs(int pos, int num, LinkedList<Integer> tmp, List<String> list) {
+		if(tmp.size() == num){
+			String ans = getResult(tmp) ; 
+			if(ans != null){
+				list.add(ans) ; 
+			}
+			return ; 
+		}
+		if(pos == 10){
+			return  ; 
+		}
+		dfs(pos+1,num,tmp,list) ; 
+		tmp.add(pos) ; 
+		dfs(pos+1,num,tmp,list) ; 
+		tmp.removeLast() ; 
+	}
+	private String getResult(LinkedList<Integer> tmp) {
+		int hh = 0 ; 
+		int mm = 0 ; 
+		for(int v:tmp){
+			if(v < 4){
+				hh += h[v] ; 
+			}else{
+				mm += m[v-4] ; 
+			}
+		}
+		if(hh > 11 || mm > 59){
+			return null ; 
+		}
+		String s = "" + hh + ":";
+		if(mm < 10){
+			s += "0" ; 
+		}
+		s += mm ; 
+		return s;
+	}
+	
+	public static void main(String[] args){
+		System.out.println(new Solution().readBinaryWatch(1));
+	}
+    
+    
 }
-
-
-

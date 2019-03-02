@@ -33,11 +33,28 @@ public class ObjectNode extends AbstractNode{
 		this.nodes = nodes;
 	}
 
+	public ValueNode getValueNode(String name){
+		return (ValueNode)nodes.get(name) ; 
+	}
+	
+	public ObjectNode getObjectNode(String name){
+		return (ObjectNode) this.nodes.get(name) ; 
+	}
+	
+	public ListNode getListNode(String name){
+		return (ListNode)this.nodes.get(name) ; 
+	}
+	
+	public IDataNode getNode(String name){
+		return this.nodes.get(name) ; 
+	}
+	
 	@Override
 	public Object resolve(Type type) {
 		if(type instanceof Class<?>){
 			Class<?> clazz = (Class<?>)type ;
 			try {
+				clazz.getConstructor().setAccessible(true);
 				Object obj = clazz.newInstance() ;
 				BeanDescription bp = BeanDescriptionParser.getInstance().parse(clazz) ; 
 				List<PropertyDescription> pds = bp.getPds() ; 
@@ -45,13 +62,14 @@ public class ObjectNode extends AbstractNode{
 					IDataNode node = nodes.get(pd.getName()) ;
 					if(node != null){
 						Object val = node.resolve(pd.getGenericType()) ;
-						if(val != null){						
+						if(val != null){
+							pd.getWriteMethod().setAccessible(true);
 							pd.getWriteMethod().invoke(obj, val) ; 
 						}
 					}
 				}
 				return obj;
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException | NoSuchMethodException e) {
 				e.printStackTrace();
 			} 
 			
@@ -61,11 +79,20 @@ public class ObjectNode extends AbstractNode{
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("{") ;
-		for(Map.Entry<String,IDataNode> entry:nodes.entrySet()){
-			sb.append(entry.getKey()+":"+entry.getValue()+",") ; 
+		StringBuilder sb = new StringBuilder("") ;
+		if(name != null && !"".equals(name)){
+			sb.append("\""+name+"\""+":") ; 
 		}
-		sb.append("}") ; 
+		sb.append("{") ; 
+		List<IDataNode> list = new ArrayList<>(nodes.values()) ; 
+		for(int i = 0;i < list.size();i++){
+			IDataNode node = list.get(i) ; 
+			sb.append(node.toString()) ;
+			if(i != list.size()-1){
+				sb.append(",") ; 
+			}
+		}
+		sb.append("}") ;
 		return sb.toString();
 	}
 

@@ -24,6 +24,10 @@ public class ListNode extends AbstractNode{
 		super(name);
 		this.nodes = new ArrayList<>() ; 
 	}
+	
+	public List<IDataNode> getNodes(){
+		return nodes ; 
+	}
 
 	
 	@Override
@@ -71,12 +75,20 @@ public class ListNode extends AbstractNode{
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("[") ; 
-		for(IDataNode node:nodes){
-			sb.append(node+",") ; 
+		StringBuilder sb = new StringBuilder("") ;
+		if(name != null && !"".equals(name.trim())){
+			sb.append("\""+name+"\""+":") ; 
 		}
-		sb.append("]") ;  
-		return sb.toString() ; 
+		sb.append("[") ; 
+		for(int i = 0;i < nodes.size();i++){
+			IDataNode node = nodes.get(i) ; 
+ 			sb.append(node.toString()) ;
+ 			if(i != nodes.size()-1){
+ 				sb.append(",") ; 
+ 			}
+		}
+		sb.append("]") ; 
+		return sb.toString();
 	}
 
 

@@ -24,7 +24,6 @@ public class PropertyDescriptionParser {
 
 	public void parseOne(Class<?> clazz,Map<String,PropertyDescription> pdMap ) throws SecurityException{ 
 		Field[] fields = clazz.getDeclaredFields() ;  
-//		clazz.get
 		for(Field field:fields){
 			String name = field.getName() ; 
 			if(pdMap.containsKey(name)){

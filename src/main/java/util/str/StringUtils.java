@@ -157,7 +157,42 @@ public class StringUtils {
 	public static String formatJsonStr(String str){
 		return null ; 
 	}
+
+	public static String javaToDb(String name) {
+		StringBuilder sb = new StringBuilder("") ; 
+		for(int i = 0;i < name.length();i++){
+			char ch = name.charAt(i) ; 
+			if(ch >= 'A' && ch <= 'Z'){
+				if(i != 0){
+					sb.append('_') ; 
+					char cc = (char) (ch - 'A' + 'a') ; 
+					sb.append(cc) ; 
+				}
+			}else{
+				sb.append(ch) ; 
+			}
+ 		}
+		return sb.toString();
+	}
 	
+	public static String dbToJava(String name){
+		StringBuilder sb = new StringBuilder("") ; 
+		for(int i = 0;i < name.length();i++){
+			char ch = name.charAt(i) ; 
+			if(ch == '_'){
+				if(i < name.length()-1){					
+					sb.append(name.charAt(i+1)-'a'+'A') ; 
+				}
+			}else{
+				sb.append(ch) ; 
+			}
+		}
+		return sb.toString() ; 
+	}
+	
+	public static void main(String[] args){
+		System.out.println(javaToDb("aBcDe")) ; 
+	}
 }
 
 
